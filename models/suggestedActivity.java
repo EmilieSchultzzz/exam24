@@ -6,7 +6,7 @@ import java.util.Map;
 
 import interfaces.TimeSlotDecider;
 
-public class suggestedActivity {
+public class suggestedActivity extends Activity{
     
     private Activity suggestedActivity;
     private TimeSlot suggestedTimeSlot;
@@ -14,16 +14,10 @@ public class suggestedActivity {
     private long minutes;
     private Map<Participant, Collection<TimeSlot>> interestedParticipants;
 
-    public suggestedActivity() {
+    public suggestedActivity(String title, long minutes) {
+        super(title, minutes);
+        this.suggestedTimeSlot = new TimeSlot(null, 0, 0);
         interestedParticipants = new HashMap<Participant, Collection<TimeSlot>>();
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setDuration(long minutes) {
-        this.minutes = minutes;
     }
 
     public Activity getActivity() {

@@ -15,8 +15,13 @@ public class ActivityOrganizer {
     }
 
     public void displaySuggestedActivities() {
-        for (int i = 0; i < suggestedActivities.size(); i++) {
+        if (suggestedActivities.isEmpty()) {
+            System.out.println("There are no activities to pick from.");
+        }
+        else {
+            for (int i = 0; i < suggestedActivities.size(); i++) {
             System.out.println(i+1 + ": " + suggestedActivities.get(i).toString());
+            }
         }
     }
 
@@ -25,35 +30,35 @@ public class ActivityOrganizer {
         Collection<TimeSlot> choices = new ArrayList<TimeSlot>();
         while (isRunning) {
             switch (getActivityID()) {
-                case "1":
+                case 0:
+                    isRunning = false;
+                case 1:
                     choices.add(suggestedActivities.get(0).getTimeSlot());
                     break;
-                case "2":
+                case 2:
                     choices.add(suggestedActivities.get(1).getTimeSlot());
                     break;
-                case "3":
+                case 3:
                     choices.add(suggestedActivities.get(2).getTimeSlot());
                     break;
-                case "4":
+                case 4:
                     choices.add(suggestedActivities.get(3).getTimeSlot());
                     break;
-                case "5":
+                case 5:
                     choices.add(suggestedActivities.get(4).getTimeSlot());
                     break;
-                case "6":
+                case 6:
                     choices.add(suggestedActivities.get(5).getTimeSlot());
                     break;
-                case "7":
+                case 7:
                     choices.add(suggestedActivities.get(6).getTimeSlot());
                     break;
-                case "8":
+                case 8:
                     choices.add(suggestedActivities.get(7).getTimeSlot());
                     break;
-                case "9":
+                case 9:
                     choices.add(suggestedActivities.get(8).getTimeSlot());
                     break;
-                case "back":
-                    isRunning = false;
                 default:
                     System.out.println("Not a valid activity");
                     break;
@@ -61,12 +66,11 @@ public class ActivityOrganizer {
         }
     }
 
-    public String getActivityID() {
-        System.out.println("Please pick the number of the activity:");
+    public int getActivityID() {
+        System.out.println("Please pick the number of the activity (write 0 to exit):");
         displaySuggestedActivities();
-        System.out.println("Write *back* to exit.");
         Scanner input = new Scanner(System.in);
-        return input.nextLine();
+        return input.nextInt();
     }
 
     public void suggestActivity() {
@@ -80,14 +84,11 @@ public class ActivityOrganizer {
         System.out.println("Please write the duration of the activity:");
         long duration = input.nextLong();
 
-        suggestedActivity newActivity = new suggestedActivity();
+        suggestedActivity newActivity = new suggestedActivity(title, duration);
         TimeSlot t = new TimeSlot(start, duration, 0);
 
-        newActivity.setTitle(title);
-        newActivity.setDuration(duration);
         newActivity.setTimeSlot(t);
         
-
         suggestedActivities.add(newActivity);
     }
 
@@ -96,41 +97,48 @@ public class ActivityOrganizer {
         SimpleDecider simpleDecider = new SimpleDecider();
         while (isRunning) {
             switch (getActivityID()) {
-                case "1":
+                case 0:
+                    isRunning = false;
+                case 1:
                     simpleDecider.decideTimeSlot(suggestedActivities.get(1));
                     break;
-                case "2":
+                case 2:
                     simpleDecider.decideTimeSlot(suggestedActivities.get(2));
                     break;
-                case "3":
+                case 3:
                     simpleDecider.decideTimeSlot(suggestedActivities.get(3));
                     break;
-                case "4":
+                case 4:
                     simpleDecider.decideTimeSlot(suggestedActivities.get(4));
                     break;
-                case "5":
+                case 5:
                     simpleDecider.decideTimeSlot(suggestedActivities.get(5));
                     break;
-                case "6":
+                case 6:
                     simpleDecider.decideTimeSlot(suggestedActivities.get(6));
                     break;
-                case "7":
+                case 7:
                     simpleDecider.decideTimeSlot(suggestedActivities.get(7));
                     break;
-                case "8":
+                case 8:
                     simpleDecider.decideTimeSlot(suggestedActivities.get(8));
                     break;
-                case "9":
+                case 9:
                     simpleDecider.decideTimeSlot(suggestedActivities.get(9));
                     break;
-                case "back":
-                    isRunning = false;
                 default:
                     System.out.println("Not a valid activity");
                     break;
             }
         }
+    }
 
+    public static void main(String[] args) {
+        ActivityOrganizer ao = new ActivityOrganizer();
+        ao.displaySuggestedActivities();
+        ao.suggestActivity();
+        ao.registerAvailability();
+        ao.ScheduleActivity();
     }
 
 }
